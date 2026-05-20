@@ -1,25 +1,17 @@
 import express from "express";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const router = express.Router();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post("/send-email", async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "cassio.leonard@gmail.com",
       subject: `Portfólio - ${subject}`,
       html: `
         <h2>Novo contato pelo portfólio</h2>

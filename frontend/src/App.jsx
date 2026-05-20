@@ -124,6 +124,14 @@ function App() {
               >
                 LinkedIn
               </a>
+
+              <a
+                href="/curriculo-cassio.pdf"
+                download
+                className="btn secondary"
+              >
+                Baixar CV
+              </a>
             </div>
           </div>
         </div>

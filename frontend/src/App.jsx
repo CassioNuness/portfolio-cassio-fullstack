@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import "./index.css";
 
@@ -36,6 +36,21 @@ function App() {
   });
 
   const [status, setStatus] = useState("");
+
+  const projectsRef = useRef(null);
+
+  function scrollProjects(direction) {
+    if (!projectsRef.current) {
+      return;
+    }
+
+    const scrollAmount = 420;
+
+    projectsRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  }
 
   function handleChange(event) {
     setFormData({
@@ -183,9 +198,21 @@ function App() {
       {/* PROJECTS */}
       <section className="section" id="projects">
         <div className="container">
-          <h2>Projetos</h2>
+          <div className="projects-header">
+            <h2>Projetos</h2>
 
-          <div className="grid">
+            <div className="carousel-buttons">
+              <button type="button" onClick={() => scrollProjects("left")}>
+                {"<"}
+              </button>
+
+              <button type="button" onClick={() => scrollProjects("right")}>
+                {">"}
+              </button>
+            </div>
+          </div>
+
+          <div className="projects-carousel" ref={projectsRef}>
             {projects.map((project, index) => (
               <div className="project-card" key={index}>
                 {project.image ? (

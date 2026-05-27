@@ -1,5 +1,6 @@
 import relatoriosImg from "../assets/relatorios.jpg";
 import batalhaNavalImg from "../assets/batalha-naval.jpg";
+import redenetwatchImg from "../assets/redenetwatch.jpg";
 
 export const profile = {
   name: "Cássio Leonard Nunes",
@@ -41,6 +42,21 @@ export const services = [
 ];
 
 export const projects = [
+  {
+    title: "RedeNetWatch",
+    description:
+      "Sistema Full Stack de monitoramento e gerenciamento de incidentes de rede com dashboard, filtros, busca dinâmica, CRUD completo e integração com PostgreSQL.",
+
+    stack: ["React", "Node.js", "Express", "PostgreSQL", "JavaScript", "CSS"],
+
+    image: redenetwatchImg,
+
+    github: "https://github.com/CassioNuness/RedeNetWatch",
+
+    demo: "",
+
+    private: false,
+  },
   {
     title: "Sistema de Relatórios Técnicos",
     description:

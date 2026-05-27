@@ -46,15 +46,10 @@ export const projects = [
     title: "RedeNetWatch",
     description:
       "Sistema Full Stack de monitoramento e gerenciamento de incidentes de rede com dashboard, filtros, busca dinâmica, CRUD completo e integração com PostgreSQL.",
-
     stack: ["React", "Node.js", "Express", "PostgreSQL", "JavaScript", "CSS"],
-
     image: redenetwatchImg,
-
-    github: "https://github.com/CassioNuness/RedeNetWatch",
-
+    github: "",
     demo: "",
-
     private: false,
   },
   {

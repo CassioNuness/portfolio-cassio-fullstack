@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import "./index.css";
 
@@ -39,6 +39,41 @@ function App() {
 
   const projectsRef = useRef(null);
 
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  function updateScrollButtons() {
+    const carousel = projectsRef.current;
+
+    if (!carousel) {
+      return;
+    }
+
+    setCanScrollLeft(carousel.scrollLeft > 0);
+
+    setCanScrollRight(
+      carousel.scrollLeft + carousel.clientWidth < carousel.scrollWidth - 5,
+    );
+  }
+
+  useEffect(() => {
+    updateScrollButtons();
+
+    const carousel = projectsRef.current;
+
+    if (!carousel) {
+      return;
+    }
+
+    carousel.addEventListener("scroll", updateScrollButtons);
+    window.addEventListener("resize", updateScrollButtons);
+
+    return () => {
+      carousel.removeEventListener("scroll", updateScrollButtons);
+      window.removeEventListener("resize", updateScrollButtons);
+    };
+  }, []);
+
   function scrollProjects(direction) {
     if (!projectsRef.current) {
       return;
@@ -50,6 +85,8 @@ function App() {
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
+
+    setTimeout(updateScrollButtons, 350);
   }
 
   function handleChange(event) {
@@ -200,68 +237,80 @@ function App() {
         <div className="container">
           <div className="projects-header">
             <h2>Projetos</h2>
-
-            <div className="carousel-buttons">
-              <button type="button" onClick={() => scrollProjects("left")}>
-                {"<"}
-              </button>
-
-              <button type="button" onClick={() => scrollProjects("right")}>
-                {">"}
-              </button>
-            </div>
           </div>
 
-          <div className="projects-carousel" ref={projectsRef}>
-            {projects.map((project, index) => (
-              <div className="project-card" key={index}>
-                {project.image ? (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="project-image"
-                  />
-                ) : (
-                  <div className="project-placeholder">Projeto Privado</div>
-                )}
+          <div className="projects-wrapper">
+            {canScrollLeft && (
+              <button
+                type="button"
+                className="carousel-arrow carousel-arrow-left"
+                onClick={() => scrollProjects("left")}
+              >
+                ‹
+              </button>
+            )}
 
-                <div className="project-content">
-                  <h3>{project.title}</h3>
+            {canScrollRight && (
+              <button
+                type="button"
+                className="carousel-arrow carousel-arrow-right"
+                onClick={() => scrollProjects("right")}
+              >
+                ›
+              </button>
+            )}
 
-                  <p>{project.description}</p>
+            <div className="projects-carousel" ref={projectsRef}>
+              {projects.map((project, index) => (
+                <div className="project-card" key={index}>
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="project-image"
+                    />
+                  ) : (
+                    <div className="project-placeholder">Projeto Privado</div>
+                  )}
 
-                  <div className="stack">
-                    {project.stack.map((tech, techIndex) => (
-                      <span key={techIndex}>{tech}</span>
-                    ))}
-                  </div>
+                  <div className="project-content">
+                    <h3>{project.title}</h3>
 
-                  <div className="project-buttons">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn"
-                      >
-                        GitHub
-                      </a>
-                    )}
+                    <p>{project.description}</p>
 
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn secondary"
-                      >
-                        Ver Projeto
-                      </a>
-                    )}
+                    <div className="stack">
+                      {project.stack.map((tech, techIndex) => (
+                        <span key={techIndex}>{tech}</span>
+                      ))}
+                    </div>
+
+                    <div className="project-buttons">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn"
+                        >
+                          GitHub
+                        </a>
+                      )}
+
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn secondary"
+                        >
+                          Ver Projeto
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

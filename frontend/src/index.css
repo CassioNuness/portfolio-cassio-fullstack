@@ -527,24 +527,54 @@ a {
   margin-bottom: 24px;
 }
 
-.carousel-buttons {
-  display: flex;
-  gap: 10px;
+.projects-wrapper {
+  position: relative;
 }
 
-.carousel-buttons button {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 55px;
+  height: 55px;
+
   border: none;
-  background: #0f172a;
+  border-radius: 50%;
+
+  background: rgba(15, 23, 42, 0.92);
+
   color: #38bdf8;
-  font-size: 20px;
+
+  font-size: 2rem;
+
   cursor: pointer;
+
+  z-index: 20;
+
+  transition: all 0.3s ease;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 
-.carousel-buttons button:hover {
+.carousel-arrow:hover {
+  transform: translateY(-50%) scale(1.08);
+
   background: #1e293b;
+
+  box-shadow:
+    0 0 20px rgba(56, 189, 248, 0.35),
+    0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.carousel-arrow-left {
+  left: -28px;
+}
+
+.carousel-arrow-right {
+  right: -28px;
 }
 
 /* RESPONSIVO */
